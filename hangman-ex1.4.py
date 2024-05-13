@@ -125,10 +125,11 @@ def choose_word(file_path, index):
     words_file = open(file_path, 'r')
     #read the words from the file and split them to a list of words
     words_list = words_file.read().split()
+    words_count = len(words_list)
     #close the file
     words_file.close()
-    #return the word in index
-    return words_list[index]
+    #return the word in index % number of words in the list
+    return words_list[(index - 1) % words_count]
 
 def welcome(MAX_TRIES):
     """print the welcome message.
@@ -154,9 +155,17 @@ def get_secret_word():
     """get the secret word from the user.
     :return: the secret word
     :rtype: str"""
-    #input of the path of the file with words and the index of the word
+    #input of the path of the file while the path is not valid
     file_path = input("enter the path of the file with words: ")
-    word_index = int(input("enter the index of the word: "))
+    while not os.path.isfile(file_path):
+        file_path = input("not valid path, try enter again: ")
+    
+    #input of the index of the word while index is not digit or less than 1
+    word_index = input("enter the index of the word: ")
+    while not word_index.isdigit() or int(word_index) <= 0:
+        word_index = input("not valid index, try enter again: ")
+
+    word_index = int(word_index)
     #return the secret word
     return choose_word(file_path, word_index)
 
