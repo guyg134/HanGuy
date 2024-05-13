@@ -1,8 +1,8 @@
 
 # HanGuy - Hangman Game
 
-    HanGuy is a simple Hangman game implemented in Python. Players must guess the secret word by entering 
-    one letter at a time. 
+    HanGuy is a simple Hangman game implemented in Python. Players must guess the secret word by 
+    entering one letter at a time. 
     The game provides feedback on guessed letters and tracks the number of incorrect guesses.
 
 ## Features
