@@ -1,5 +1,53 @@
 import os 
 
+# Constants
+MAX_TRIES = 6
+HANGMAN_PHOTOS = {1 : "x-------x", 2 : """        x-------x
+        |
+        |
+        |
+        |
+        |""", 3 : """        x-------x
+        |       |
+        |       0
+        |
+        |
+        |""", 4 : """        x-------x
+        |       |
+        |       0
+        |       |
+        |
+        |""", 5 : """        x-------x
+        |       |
+        |       0
+        |      /|\\
+        |
+        |""", 6 : """        x-------x
+        |       |
+        |       0
+        |      /|\\
+        |      /
+        |""", 7 : """        x-------x
+        |       |
+        |       0
+        |      /|\\
+        |      / \\
+        |"""}
+
+HANGMAN_ASCII_ART="""                                      
+    .----------------.  .----------------.  .-----------------. .----------------.  .----------------.  .----------------. 
+    | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
+    | |  ____  ____  | || |      __      | || | ____  _____  | || |    ______    | || | _____  _____ | || |  ____  ____  | |
+    | | |_   ||   _| | || |     /  \     | || ||_   \|_   _| | || |  .' ___  |   | || ||_   _||_   _|| || | |_  _||_  _| | |
+    | |   | |__| |   | || |    / /\ \    | || |  |   \ | |   | || | / .'   \_|   | || |  | |    | |  | || |   \ \  / /   | |
+    | |   |  __  |   | || |   / ____ \   | || |  | |\ \| |   | || | | |    ____  | || |  | '    ' |  | || |    \ \/ /    | |
+    | |  _| |  | |_  | || | _/ /    \ \_ | || | _| |_\   |_  | || | \ `.___]  _| | || |   \ `--' /   | || |    _|  |_    | |
+    | | |____||____| | || ||____|  |____|| || ||_____|\____| | || |  `._____.'   | || |    `.__.'    | || |   |______|   | |
+    | |              | || |              | || |              | || |              | || |              | || |              | |
+    | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
+    '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' """
+
+
 def check_valid_input(letter_guessed, old_letters_guessed):
     """check if the input is valid.
     :param base: letter_guessed - the letter that the user guessed
@@ -8,8 +56,8 @@ def check_valid_input(letter_guessed, old_letters_guessed):
     :type old_letters_guessed: list
     :return: True if the input is valid, False otherwise
     :rtype: bool"""
-    #if the input is not a letter or the letter is already guessed or the input is more than one letter return False
-    if (len(letter_guessed) > 1) or (not letter_guessed.isalpha()) or (letter_guessed in old_letters_guessed):
+    #if the input is not a letter or the letter is already guessed return False
+    if len(letter_guessed) > 1 or not letter_guessed.isalpha() or letter_guessed in old_letters_guessed:
         return False
     return True
 
@@ -22,7 +70,7 @@ def try_update_letter_guessed(letter_guessed, old_letters_guessed):
     :return: True if the input is valid, False otherwise
     :rtype: bool"""
     #if the input is valid add the letter to the list and return True
-    if(check_valid_input(letter_guessed, old_letters_guessed)):
+    if check_valid_input(letter_guessed, old_letters_guessed):
         old_letters_guessed += letter_guessed
         return True
     #if the input is not valid print X and the list of the guessed letters and return False
@@ -79,37 +127,7 @@ def print_hangman(num_of_tries):
     """print the hangman photo.
     :param base: num_of_tries - the number of tries that the user has left
     :type num_of_tries: int"""
-    HANGMAN_PHOTOS = {1 : "x-------x", 2 : """        x-------x
-        |
-        |
-        |
-        |
-        |""", 3 : """        x-------x
-        |       |
-        |       0
-        |
-        |
-        |""", 4 : """        x-------x
-        |       |
-        |       0
-        |       |
-        |
-        |""", 5 : """        x-------x
-        |       |
-        |       0
-        |      /|\\
-        |
-        |""", 6 : """        x-------x
-        |       |
-        |       0
-        |      /|\\
-        |      /
-        |""", 7 : """        x-------x
-        |       |
-        |       0
-        |      /|\\
-        |      / \\
-        |"""}
+    
     #print the hangman photo
     print(HANGMAN_PHOTOS[num_of_tries])
 
@@ -136,18 +154,6 @@ def welcome(MAX_TRIES):
     :param base: MAX_TRIES - the number of tries that the user has
     :type MAX_TRIES: int"""
     #print the welcome message
-    HANGMAN_ASCII_ART="""                                      
-    .----------------.  .----------------.  .-----------------. .----------------.  .----------------.  .----------------. 
-    | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
-    | |  ____  ____  | || |      __      | || | ____  _____  | || |    ______    | || | _____  _____ | || |  ____  ____  | |
-    | | |_   ||   _| | || |     /  \     | || ||_   \|_   _| | || |  .' ___  |   | || ||_   _||_   _|| || | |_  _||_  _| | |
-    | |   | |__| |   | || |    / /\ \    | || |  |   \ | |   | || | / .'   \_|   | || |  | |    | |  | || |   \ \  / /   | |
-    | |   |  __  |   | || |   / ____ \   | || |  | |\ \| |   | || | | |    ____  | || |  | '    ' |  | || |    \ \/ /    | |
-    | |  _| |  | |_  | || | _/ /    \ \_ | || | _| |_\   |_  | || | \ `.___]  _| | || |   \ `--' /   | || |    _|  |_    | |
-    | | |____||____| | || ||____|  |____|| || ||_____|\____| | || |  `._____.'   | || |    `.__.'    | || |   |______|   | |
-    | |              | || |              | || |              | || |              | || |              | || |              | |
-    | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
-    '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' """
     print(HANGMAN_ASCII_ART, '\n')
     print("Welcome to HanGuy! Guess the secret word by entering one letter at a time. You have " + str(MAX_TRIES) + " tries. Good luck!\n")
 
@@ -162,7 +168,7 @@ def get_secret_word():
     
     #input of the index of the word while index is not digit or less than 1
     word_index = input("enter the index of the word: ")
-    while not word_index.isdigit() or int(word_index) <= 0:
+    while not word_index.isdigit():
         word_index = input("not valid index, try enter again: ")
 
     word_index = int(word_index)
@@ -171,7 +177,6 @@ def get_secret_word():
 
 def main():
 
-    MAX_TRIES = 6
     mistakes = 0
     old_letters_guessed = []
 
@@ -187,12 +192,15 @@ def main():
     while mistakes < MAX_TRIES:
         #input of letter
         letter_input = input("enter letter: ")
+
+        #clear the screen
+        os.system('cls')
+
         #validation of the letter input
         if not try_update_letter_guessed(letter_input, old_letters_guessed):
             continue
-        #clear the screen
-        os.system('cls')
-        #if the letter is not in the secret word add 1 to the mistakes and print the hangman photo with the new number of tries
+        
+        #if the letter is not in the secret word add 1 to the mistakes and print the hangman photo 
         if  letter_input not in secret_word:
             mistakes += 1
             print_hangman(mistakes + 1)
