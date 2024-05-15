@@ -74,6 +74,7 @@ def try_update_letter_guessed(letter_guessed, old_letters_guessed):
         old_letters_guessed += letter_guessed
         return True
     #if the input is not valid print X and the list of the guessed letters and return False
+    old_letters_guessed.sort()
     print("X")
     print(print_list_format(old_letters_guessed))
     return False
@@ -84,7 +85,7 @@ def print_list_format(list):
     :type list: list
     :return: the list in the format of -> between the letters
     :rtype: str"""
-    output = ' -> '.join(list[::2] + list[1::2])
+    output = ' -> '.join(list)
     return output
 
 def show_hidden_word(secret_word, old_letters_guessed):
@@ -115,13 +116,10 @@ def check_win(secret_word, old_letters_guessed):
     :type old_letters_guessed: list
     :return: True if the user guessed the secret word, False otherwise
     :rtype: bool"""
-    #for each letter in the secret word
-    for letter in secret_word:
-        #if the letter is not in the list of the guessed letters return False
-        if letter not in old_letters_guessed:
-            return False
-    #if all the letters in the secret word are in the list of the guessed letters return True
-    return True
+    
+    if '_' not in show_hidden_word(secret_word, old_letters_guessed):
+        return True
+    return False
 
 def print_hangman(num_of_tries):
     """print the hangman photo.
@@ -191,7 +189,7 @@ def main():
     #while the user has tries
     while mistakes < MAX_TRIES:
         #input of letter
-        letter_input = input("enter letter: ")
+        letter_input = input("enter letter: ").lower()
 
         #clear the screen
         os.system('cls')
